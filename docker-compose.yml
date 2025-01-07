@@ -1,0 +1,13 @@
+services:
+  flask-app:
+    image: githubscraping:latest # Use your local image name
+    build:
+      context: . # If you're building the image locally, use the current directory
+    ports:
+      - "5000:5000" # Map port 5000 of the container to port 5000 on the host
+    environment:
+      - FLASK_APP=app.py # Set the FLASK_APP environment variable
+      - FLASK_ENV=development # Optional: Set to 'production' for production environments
+    volumes:
+      - .:/app # Mount the current directory to /app inside the container
+    restart: always # Optional: restart the container if it crashes
