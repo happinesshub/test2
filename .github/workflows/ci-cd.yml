@@ -57,15 +57,15 @@ jobs:
       - name: Restart server to apply Docker group changes
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
-            sudo reboot
+            echo "chica123" | sudo -S reboot
           EOF
 
       - name: Deploy to remote server
         run: |
+          # Wait for the server to reboot and reconnect
+          sleep 60
           ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
-            # Wait for server to restart and reconnect
-            sleep 60
             # Pull and run the Docker image
-            sudo docker pull happiness000/githubscraping:latest
-            sudo docker run -d -p 5000:5000 happiness000/githubscraping:latest
+            echo "chica123" | sudo -S docker pull happiness000/githubscraping:latest
+            echo "chica123" | sudo -S docker run -d -p 5000:5000 happiness000/githubscraping:latest
           EOF
