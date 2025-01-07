@@ -41,6 +41,7 @@ jobs:
       - name: Install Docker on remote server
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
+            # Update and install dependencies
             echo "chica123" | sudo -S apt-get update
             echo "chica123" | sudo -S apt-get install -y apt-transport-https ca-certificates curl software-properties-common
             echo "chica123" | sudo -S curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo -S apt-key add -
@@ -49,8 +50,22 @@ jobs:
             echo "chica123" | sudo -S apt-get install -y docker-ce
             echo "chica123" | sudo -S systemctl start docker
             echo "chica123" | sudo -S systemctl enable docker
+            # Add the user to the Docker group to avoid sudo for Docker commands
+            echo "chica123" | sudo -S usermod -aG docker bwang
+          EOF
+
+      - name: Restart server to apply Docker group changes
+        run: |
+          ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
+            sudo reboot
           EOF
 
       - name: Deploy to remote server
         run: |
-          ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 'docker pull happiness000/githubscraping:latest && docker run -d -p 5000:5000 happiness000/githubscraping:latest'
+          ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
+            # Wait for server to restart and reconnect
+            sleep 60
+            # Pull and run the Docker image
+            sudo docker pull happiness000/githubscraping:latest
+            sudo docker run -d -p 5000:5000 happiness000/githubscraping:latest
+          EOF
