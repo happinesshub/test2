@@ -33,9 +33,14 @@ jobs:
         run: |
           docker push happiness000/githubscraping:latest
 
+      - name: Set up SSH key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
       - name: Install Docker on remote server
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} bwang@142.93.193.118 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
             # Update and install dependencies
             sudo apt-get update
             sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
