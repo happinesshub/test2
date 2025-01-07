@@ -63,7 +63,7 @@ jobs:
       - name: Deploy to remote server
         run: |
           # Wait for the server to reboot and reconnect
-          sleep 60
+          sleep 120
           ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
             # Pull and run the Docker image
             echo "chica123" | sudo -S docker pull happiness000/githubscraping:latest
