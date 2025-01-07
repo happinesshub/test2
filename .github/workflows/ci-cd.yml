@@ -41,18 +41,14 @@ jobs:
       - name: Install Docker on remote server
         run: |
           ssh -o StrictHostKeyChecking=no -i private_key.pem bwang@142.93.193.118 << 'EOF'
-            # Update and install dependencies
-            sudo apt-get update
-            sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-            # Add Docker’s official GPG key
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-            # Add Docker repository
-            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-            sudo apt-get update
-            # Install Docker
-            sudo apt-get install -y docker-ce
-            sudo systemctl start docker
-            sudo systemctl enable docker
+            echo "chica123" | sudo -S apt-get update
+            echo "chica123" | sudo -S apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+            echo "chica123" | sudo -S curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo -S apt-key add -
+            echo "chica123" | sudo -S add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+            echo "chica123" | sudo -S apt-get update
+            echo "chica123" | sudo -S apt-get install -y docker-ce
+            echo "chica123" | sudo -S systemctl start docker
+            echo "chica123" | sudo -S systemctl enable docker
           EOF
 
       - name: Deploy to remote server
